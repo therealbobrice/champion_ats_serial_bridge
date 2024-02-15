@@ -93,7 +93,13 @@ void getData() {
     int httpResponseCode = http.GET();
     if (httpResponseCode > 0) {
       String payload = http.getString();
-      Serial.println(payload);
+      int len = payload.length(); // figure out where to replace characters to remove closing '}'
+      payload[len -2] = ','; // change '}' to ',' to add RSSI to array
+      payload[len -1] = '"'; // actual last character is ' ', change to '"' for RSSI
+      sprintf(buf, "RSSI\": \"%d\"}", WiFi.RSSI()); // create string `RSSI": <val>}` for JSON, treat <val> like string
+
+      Serial.print(payload); // print payload to Serial0 but NO newline
+      Serial.println(buf); //print extra RSSI info to Serial0 with newline
       displaytext("Received ATS Data");
     } else {
       Serial.print("Error getting data. HTTP response code: ");
