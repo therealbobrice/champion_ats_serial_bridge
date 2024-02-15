@@ -15,4 +15,6 @@ No other generator or transfer switch control is implemented, just data monitori
 ## Native serial interface
 This transfer switch also provides a USB-B port in the upper left hand corner of the ATS, which presents itself as an ACM device (`/dev/ttyACM0` on my Linux laptop when I tried.). The connection is at 9600 8N1. Once connected typing `?` gives a list of commands you can issue. Typing `1` will give you the real-time status.
 
+You need to take off _both_ safety covers: the external cover as well as the shield protecting you from _LIVE 240V AC_ bus bars.
+
 This USB port is _RIGHT NEXT TO LIVE 240V AC_!! **BE CAREFUL IF YOU USE IT!!**
