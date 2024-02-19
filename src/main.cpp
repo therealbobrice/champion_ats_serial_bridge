@@ -1,28 +1,3 @@
-/*
-#include <Arduino.h>
-
-
-void setup() {
-  Serial.begin(9600); // Initialize serial communication with baud rate 115200
-}
-
-void loop() {
-  Serial.println("hello world"); // Send "hello world" over serial
-  delay(2000); // Wait for 2 seconds
-}
-*/
-
-/*
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/solved-reconnect-esp32-to-wifi/
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*/
-
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <SPI.h>
@@ -48,7 +23,7 @@ const char* command = COMMAND;
 char buf[32];
 
 unsigned long previousMillis = 0;
-unsigned long interval = 30000;
+unsigned long interval = 10000;
 
 
 void initWiFi() {
@@ -60,6 +35,8 @@ void initWiFi() {
     delay(1000);
   }
   Serial.println(WiFi.localIP());
+  WiFi.setAutoReconnect(true);
+  WiFi.persistent(true);
 }
 void displaytext(const char *s, int x = 0, int y = 0, bool cleardisplay = true, int color = WHITE, int textsize = 1)
 {
@@ -134,9 +111,9 @@ void loop() {
     if ((WiFi.status() != WL_CONNECTED)) {
     Serial.print(millis());
     Serial.println("Reconnecting to WiFi...");
-    displaytext("Reconnecting...");
-    WiFi.disconnect();
-    WiFi.reconnect();
+    displaytext("WiFi dropped..");
+    displaytext("Restarting...",0,9,false);
+    ESP.restart();
 
   } else {
     //Serial.print("RSSI: ");
